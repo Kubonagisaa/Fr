@@ -1384,6 +1384,63 @@ end
 local Library = Update:Window("Xelex","",Enum.KeyCode.RightControl);
 Main = Library:Tab("Main",7040391851)
 
-Main:Line()
+-- Tìm Frame của phần Main
+local MainFrame = game.CoreGui:FindFirstChild("LuaExecutor"):FindFirstChild("MainFrame"):FindFirstChild("MainFrame") -- Thay đổi theo cấu trúc GUI của bạn
 
-Main:Label("Welcome Xelex Community")
+-- Kiểm tra xem phần Main có tồn tại không
+if MainFrame then
+    -- Tạo khung nhập Lua script
+    local CodeBox = Instance.new("TextBox")
+    CodeBox.Name = "CodeBox"
+    CodeBox.Parent = MainFrame
+    CodeBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    CodeBox.Position = UDim2.new(0.05, 0, 0.2, 0)
+    CodeBox.Size = UDim2.new(0.9, 0, 0.6, 0) -- Điều chỉnh kích thước tùy ý
+    CodeBox.Font = Enum.Font.Code
+    CodeBox.MultiLine = true
+    CodeBox.PlaceholderText = "Nhập mã Lua ở đây..."
+    CodeBox.Text = ""
+    CodeBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CodeBox.TextSize = 14.0
+    CodeBox.TextXAlignment = Enum.TextXAlignment.Left
+    CodeBox.TextYAlignment = Enum.TextYAlignment.Top
+
+    local CodeBoxCorner = Instance.new("UICorner")
+    CodeBoxCorner.CornerRadius = UDim.new(0, 5)
+    CodeBoxCorner.Parent = CodeBox
+
+    -- Tạo nút thực thi
+    local ExecuteButton = Instance.new("TextButton")
+    ExecuteButton.Name = "ExecuteButton"
+    ExecuteButton.Parent = MainFrame
+    ExecuteButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    ExecuteButton.Position = UDim2.new(0.35, 0, 0.85, 0)
+    ExecuteButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+    ExecuteButton.Font = Enum.Font.GothamBold
+    ExecuteButton.Text = "Thực Thi"
+    ExecuteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ExecuteButton.TextSize = 16.0
+
+    local ExecuteButtonCorner = Instance.new("UICorner")
+    ExecuteButtonCorner.CornerRadius = UDim.new(0, 10)
+    ExecuteButtonCorner.Parent = ExecuteButton
+
+    -- Hàm thực thi mã Lua
+    local function executeCode(code)
+        local success, errorMsg = pcall(function()
+            loadstring(code)()
+        end)
+        
+        if not success then
+            warn("Lỗi khi thực thi mã: ", errorMsg)
+        end
+    end
+
+    -- Sự kiện khi nhấp vào nút thực thi
+    ExecuteButton.MouseButton1Click:Connect(function()
+        local code = CodeBox.Text
+        executeCode(code)
+    end)
+else
+    warn("Không tìm thấy phần MainFrame trong GUI")
+end
