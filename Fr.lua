@@ -45,7 +45,7 @@ spawn(function()
         else
             noFruitTime = noFruitTime + 5 -- Tăng thời gian không có trái cây
 
-            if noFruitTime >= 60 and canTeleport then -- Nếu đã 130 giây và chưa nhảy server
+            if noFruitTime >= 50 and canTeleport then -- Nếu đã 130 giây và chưa nhảy server
                 TPReturner() -- Nhảy server
                 noFruitTime = 0 -- Reset lại thời gian
                 canTeleport = false -- Ngăn không cho nhảy server lại ngay lập tức
