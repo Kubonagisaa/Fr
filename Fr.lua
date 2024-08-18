@@ -66,3 +66,21 @@ spawn(function()
         sendNotification("Error", "Không thể tải script tìm kiếm trái cây: " .. tostring(err))
     end
 end)
+
+-- Chức năng noclip tự động
+local noclip = true
+local player = game.Players.LocalPlayer
+
+-- Vòng lặp để thực hiện noclip
+game:GetService("RunService").Stepped:Connect(function()
+    if noclip then
+        for _, part in pairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") and part.CanCollide then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
+
+-- Thông báo khi noclip được bật
+sendNotification("Noclip", "Noclip đã được bật tự động")
