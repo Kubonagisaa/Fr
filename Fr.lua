@@ -19,10 +19,13 @@ function sendNotification(title, text)
     })
 end
 
--- Hàm kiểm tra trái cây trong workspace
-function checkForFruits(workspace)
+-- Hàm kiểm tra và dịch chuyển đến trái cây trong workspace
+function tpToFruit(workspace)
     for _, obj in pairs(workspace:GetChildren()) do
         if obj:IsA("Model") and obj:FindFirstChild("Fruit") then
+            local fruitPosition = obj.PrimaryPart.Position
+            game.Players.LocalPlayer.Character:MoveTo(fruitPosition) -- Dịch chuyển đến vị trí trái cây
+            sendNotification("TP Fruit", "Đã dịch chuyển đến trái cây!")
             return true
         end
     end
@@ -36,16 +39,15 @@ spawn(function()
 
     while true do
         wait(5) -- Kiểm tra mỗi 5 giây
-        local hasFruit = checkForFruits(workspace)
+        local hasFruit = tpToFruit(workspace)
 
         if hasFruit then
-            sendNotification("Fruit", "Có trái cây trên bản đồ.")
             noFruitTime = 0 -- Reset thời gian nếu có trái cây
             canTeleport = true -- Cho phép nhảy server lại
         else
             noFruitTime = noFruitTime + 5 -- Tăng thời gian không có trái cây
 
-            if noFruitTime >= 50 and canTeleport then -- Nếu đã 130 giây và chưa nhảy server
+            if noFruitTime >= 130 and canTeleport then -- Nếu đã 130 giây và chưa nhảy server
                 TPReturner() -- Nhảy server
                 noFruitTime = 0 -- Reset lại thời gian
                 canTeleport = false -- Ngăn không cho nhảy server lại ngay lập tức
