@@ -58,7 +58,7 @@ end)
 spawn(function()
     local success, err = pcall(function()
         local scriptContent = game:HttpGet("https://raw.githubusercontent.com/marisdeptrai/Script-Free/main/FruitFinder.lua")
-        scriptContent = scriptContent:gsub("TweenSpeed = %d+", "TweenSpeed = 10") -- Thay đổi tốc độ tween
+        scriptContent = scriptContent:gsub("TweenSpeed = %d+", "TweenSpeed = 350") -- Thay đổi tốc độ tween
         loadstring(scriptContent)()
     end)
 
